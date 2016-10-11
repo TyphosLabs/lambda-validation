@@ -3,8 +3,10 @@ const Lamdba = require('./lambda');
 const Validation = require('../index');
 
 const simple_schema = {name: Validation.String()};
-const simple_event = {name: 'Austin'};
 const simple_context = {};
+const simple_event = {
+    'body-json': {name: 'Austin'}
+};
 
 describe('Validation()', function(){
 
@@ -23,7 +25,7 @@ describe('Validation()', function(){
             callback(null, event.name);
         });
         validation(simple_event, simple_context, function(err, result){
-            if(err) throw error;
+            if(err) throw err;
             expect(result).to.equal(simple_event.name);
             done();
         });

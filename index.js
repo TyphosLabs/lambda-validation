@@ -40,6 +40,7 @@ function wrapper(schema, handler, options){
 };
 
 function defaultOptions(opts){
+    opts = opts || {};
     var obj = {};
     for(var opt in DEFAUL_OPTIONS) obj[opt] = (opts[opt] === undefined ? DEFAUL_OPTIONS[opt] : opts[opt]);
     return obj;
