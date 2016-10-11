@@ -1,4 +1,5 @@
 const Validation = require('@typhoslabs/validation');
+const Errors = require('api-gateway-errors');
 const DEFAUL_OPTIONS = {
     sanitize: true
 };
@@ -12,21 +13,21 @@ function wrapper(schema, handler, options){
     // Set default options
     options = defaultOptions(options);
     
+    //
     var validation;
     if(!options.sanitize) validation = Validation.Object(schema).lenient();
     else validation = Validation.Object(schema);
-    // Anonymous function is justfied by the fact this will only exacute once
 
-    return function(event, context, callback){
+    // Anonymous function is justfied by the fact this will only exacute once
+    return Errors(function(event, context, callback){
 
         // Save body, we about to use it a lot
         var body = event['body-json'];
-        // TODO use lambda-errors?
         // Make sure we have a body
-        if(!body) return callback(new Error('No body on event!'));
+        if(!body) return callback('No body on event!');
         // Validate our data
         body = validation.validate(body);
-        // TODO wrap with lambda-errors?
+       
         if(body instanceof Error) return callback(body);
         // TODO maybe just map this to body in API gateway
         // Delete old body
@@ -35,7 +36,7 @@ function wrapper(schema, handler, options){
         event.body = body;
         // Call our Lambda handler
         handler(event, context, callback);
-    }
+    });
 };
 
 function defaultOptions(opts){

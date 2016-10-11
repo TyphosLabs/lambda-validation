@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TyphosLabs/lambda-validation#readme",
   "dependencies": {
-    "@typhoslabs/validation": "^2.0.3"
+    "@typhoslabs/validation": "^2.0.3",
+    "api-gateway-errors": "0.0.1"
   }
 }
