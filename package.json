@@ -1,0 +1,22 @@
+{
+  "name": "lambda-validation",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TyphosLabs/lambda-validation.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TyphosLabs/lambda-validation/issues"
+  },
+  "homepage": "https://github.com/TyphosLabs/lambda-validation#readme",
+  "dependencies": {
+    "@typhoslabs/validation": "^2.0.3"
+  }
+}
