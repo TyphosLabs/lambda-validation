@@ -4,6 +4,6 @@ const Config = require('./config');
 
 console.log('Executing lambda...');
 Lamdba.handler(Config.event, Config.context, (err, result) => {
-    if(err) throw err;
+    if(err) return console.error(err);
     console.log('Lambda:', JSON.stringify(result, null, 4));
 });

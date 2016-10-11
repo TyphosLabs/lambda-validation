@@ -1,4 +1,7 @@
 const Validation = require('@typhoslabs/validation');
+const DEFAUL_OPTIONS = {
+    sanitize: true
+};
 
 // Set the Validation base function to our wrapper
 Validation.setFn(wrapper);
@@ -8,7 +11,10 @@ function wrapper(schema, handler, options){
 
     // Set default options
     options = defaultOptions(options);
-    var validation = Validation.Object(schema);
+    
+    var validation;
+    if(!options.sanitize) validation = Validation.Object(schema).lenient();
+    else validation = Validation.Object(schema);
     // Anonymous function is justfied by the fact this will only exacute once
 
     return function(event, context, callback){
@@ -21,9 +27,7 @@ function wrapper(schema, handler, options){
         // Validate our data
         body = validation.validate(body);
         // TODO wrap with lambda-errors?
-        if(body instanceof Error) return callback(err);
-        // Sanitize our data
-        if(options.sanitize) body = sanitize(body);
+        if(body instanceof Error) return callback(body);
         // TODO maybe just map this to body in API gateway
         // Delete old body
         delete event['body-json'];
@@ -35,14 +39,9 @@ function wrapper(schema, handler, options){
 };
 
 function defaultOptions(opts){
-    return {
-        sanitize: opts.sanitize || false
-    };
-}
-
-function sanitize(schema, data){
-    // TODO logic goes here
-    return data;
+    var obj = {};
+    for(var opt in DEFAUL_OPTIONS) obj[opt] = (opts[opt] === undefined ? DEFAUL_OPTIONS[opt] : opts[opt]);
+    return obj;
 }
 
 module.exports = Validation;
